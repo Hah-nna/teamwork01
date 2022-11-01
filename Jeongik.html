@@ -1,1 +1,127 @@
-
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>각양각색|이정익</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="detail.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index.html"
+          ><img src="/static/Logo.svg"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-around"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/Hana.html"
+                >정하나</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/Yujin.html">박유진</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" href="/Jeongik.html">이정익</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/Sanghyun.html">김상현</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="profile">
+        <div class="profile-img">
+          <img
+            src="/static/img/profile-jeongik.jpeg"
+            alt="이정익 프로필 이미지"
+          />
+        </div>
+        <div class="profile-content">
+          <div class="first-line">
+            <h1 class="name">Lee JeongIk</h1>
+            <a href="https://github.com/Jeremy-Kr"
+              ><img src="./static/github.svg" alt=""
+            /></a>
+            <a href="https://velog.io/@jeremy-kr"
+              ><img src="./static/velog.svg" alt=""
+            /></a>
+          </div>
+          <ul class="tag-container">
+            <li class="tag">(전)토목설계</li>
+            <li class="tag">(전)CF감독</li>
+            <li class="tag">(전)K-POP 매니저</li>
+            <li class="tag">(진)프론트엔드 개발자</li>
+          </ul>
+          <div class="contentbox">
+            <p class="lead">
+              <span>자기소개 및 MBTI :</span> 안녕하세요 이정익입니다! 개발자를
+              목표로 하기 전, 토목설계, CF감독, K-POP매니저 등 여러 일들을 해
+              왔습니다. 작년 이맘때 결혼을 해 사랑스러운 아내와 반려견 미자까지
+              세가족이 함깨 살고 있습니다.
+            </p>
+            <p class="lead">
+              <span>장점 :</span> 다른 사람들과 함께 협업하는것에 관심이
+              많습니다. 지난 일들 또한 수많은 사람들과 함께 유기적으로 이뤄지는
+              일들을 해왔고, 많은 사람들과 성공적으로 소통해 업무 효율을 최대한
+              끌어 올리는 것을 좋아합니다. 더 효율적인 방법을 찾아 열심히
+              잔머리를 굴립니다.
+            </p>
+            <p class="lead">
+              <span>협업 스타일 :</span> 항상 효율적인 방법을 찾아 고민하고,
+              먼저 제시하는 편입니다. 알고있는 지식을 나누는 것을 좋아합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="card my-4 p-3">
+        <div class="mb-3">
+          <form action="/api/jeongik/comments" method="post"></form>
+          <label for="name" class="form-label">닉네임</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="홍길동"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="text" class="form-label">코멘트</label>
+          <textarea class="form-control" id="text" rows="3"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">방명록 작성</button>
+      </div>
+      <div class="card mb-3">
+        <div class="card-body comments">
+          <h5 class="card-title">홍길동</h5>
+          <p class="card-text">방명록 내용</p>
+        </div>
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
