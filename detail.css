@@ -45,13 +45,13 @@ main {
 
 .profile-img {
   width: 384px;
-
 }
 
 .profile-img > img {
   width: 384px;
   height: 384px;
   border-radius: 16px;
+  margin: 16px 0 0;
 }
 
 .first-line {
