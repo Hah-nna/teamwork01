@@ -31,4 +31,8 @@ def homework_get():
     return jsonify({'saying': saying_list})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5000, debug=True)
+    print('hello world!')
+    # help(Flask)
+    help(MongoClient)
+
+#    app.run('0.0.0.0', port=5000, debug=True)
