@@ -12,6 +12,22 @@ db = client.dbsparta
 def home():
    return render_template('index.html')
 
+@app.route('/hana')
+def hana():
+   return render_template('Hana.html')
+
+@app.route('/jeongik')
+def jeongik():
+   return render_template('Jeongik.html')
+
+@app.route('/sanghyun')
+def sanghyun():
+   return render_template('Sanghyun.html')
+
+@app.route('/yujin')
+def yujun():
+   return render_template('Yujin.html')
+
 @app.route("/homework", methods=["POST"])
 def homework_post():
     # 클라이언트에서 서버로 받은 정보
@@ -31,8 +47,4 @@ def homework_get():
     return jsonify({'saying': saying_list})
 
 if __name__ == '__main__':
-    print('hello world!')
-    # help(Flask)
-    help(MongoClient)
-
-#    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
