@@ -6,7 +6,7 @@ db = client.db
 
 doc = {
     "name":"string",
-    "text":"string"
+    "text":"dsadsa"
 }
 
 db.comments.insert_one(doc)

@@ -2,49 +2,58 @@
 # venv로 가상환경을 설정했습니다. flask, pymongo, dnspython
 
 from flask import Flask, render_template, request, jsonify
+
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('(하나님 MongoDB Link 여기 넣습니다.)')
-db = client.dbsparta
+import certifi
+ca = certifi.where()
+client = MongoClient('mongodb+srv://admin:adminshow@cluster0.3luh09a.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+db = client.db
+
+
 
 @app.route('/')
 def home():
-   return render_template('index.html')
+    return render_template('index.html')
+
+@app.route("/hana/post", methods=["POST"])
+def hana_post():
+    name_receive = request.form['name_give']
+    comment_receive = request.form['comment_give']
+
+    doc = {
+        'name': name_receive,
+        'comment': comment_receive
+    }
+    db.homework.insert_one(doc)
+
+    return jsonify({'msg':'저장 완료!'})
+
 
 @app.route('/hana')
 def hana():
-   return render_template('Hana.html')
+    return render_template('Hana.html')
+
+@app.route("/hana/get", methods=["GET"])
+def hana_get():
+    comment_list = list(db.comments.find({}, {'_id': False}))
+    return jsonify({'comments': comment_list})
 
 @app.route('/jeongik')
 def jeongik():
-   return render_template('Jeongik.html')
+    return render_template('Jeongik.html')
+
 
 @app.route('/sanghyun')
 def sanghyun():
-   return render_template('Sanghyun.html')
+    return render_template('Sanghyun.html')
+
 
 @app.route('/yujin')
 def yujun():
-   return render_template('Yujin.html')
+    return render_template('Yujin.html')
 
-@app.route("/homework", methods=["POST"])
-def homework_post():
-    # 클라이언트에서 서버로 받은 정보
-    name_receive = request.form['name_give']
-    comment_receive = request.form['comment_give']
-    doc = {
-        'name' : name_receive,
-        'comment' :
-            comment_receive
-    }
-    db.homework.insert_one(doc)
-    return jsonify({'msg':'스포: 핀과 제이크는 셜미와 베스로 환생합니다.'})
-
-@app.route("/homework", methods=["GET"])
-def homework_get():
-    saying_list = list(db.homework.find({}, {'_id': False}))
-    return jsonify({'saying': saying_list})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

@@ -4,8 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>각양각색|정하나</title>
+    <script src="../static/js/jquery-3.6.1.min.js"></script>
+    <script src="../static/js/bootstrap.min.js" defer></script>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/css/detail.css" />
+    <script>
+      $(document).ready(()=>{
+        pageLoading()
+      })
+
+      function pageLoading() {
+        $.ajax({
+          type: "GET",
+          url: "/hana/get",
+          data: {},
+          success: function (response) {
+            let rows = response.comments;
+            rows.forEach(function (val, idx) {
+              const {name, text} = val
+              let temp_html = `<div class="card mb-3">
+                                  <div class="card-body comments">
+                                    <h5 class="card-title">${name}</h5>
+                                    <p class="card-text">${text}</p>
+                                  </div>
+                                </div>`
+              $('#comment-list').append(temp_html)
+            })
+          }
+        }
+      )
+      }
+
+   /*  function save_comment() {
+        let name = $('#name').val()
+        let comment = $('#comment').val()
+
+        $.ajax({
+          type: 'POST',
+          url: '/homework',
+          data: {'name_give': name, 'comment_give': comment},
+          success: function (response) {
+            alert(response['msg'])
+            window.location.reload()
+          }
+        })
+      } */
+
+
+    </script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg">
@@ -109,11 +155,7 @@
         </div>
         <button class="btn btn-primary" type="submit">방명록 작성</button>
       </div>
-      <div class="card mb-3">
-        <div class="card-body comments">
-          <h5 class="card-title">홍길동</h5>
-          <p class="card-text">방명록 내용</p>
-        </div>
+      <div id="comment-list">
       </div>
     </main>
     <footer></footer>
