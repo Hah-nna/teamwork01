@@ -14,6 +14,7 @@
       })
 
       function pageLoading() {
+        $('#comment-list').empty()
         $.ajax({
           type: "GET",
           url: "/hana/get",
@@ -35,22 +36,19 @@
       )
       }
 
-   /*  function save_comment() {
+     function save_comment() {
         let name = $('#name').val()
-        let comment = $('#comment').val()
-
+        let text = $('#text').val()
         $.ajax({
           type: 'POST',
-          url: '/homework',
-          data: {'name_give': name, 'comment_give': comment},
+          url: '/hana/post',
+          data: {'name': name, 'text': text},
           success: function (response) {
             alert(response['msg'])
             window.location.reload()
           }
         })
-      } */
-
-
+      } 
     </script>
   </head>
   <body>
@@ -153,7 +151,7 @@
           <label for="text" class="form-label">코멘트</label>
           <textarea class="form-control" id="text" rows="3"></textarea>
         </div>
-        <button class="btn btn-primary" type="submit">방명록 작성</button>
+        <button onclick="save_comment()" class="btn btn-primary" type="submit">방명록 작성</button>
       </div>
       <div id="comment-list">
       </div>
