@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>각양각색|정하나</title>
+    <script src="../static/js/jquery-3.6.1.min.js"></script>
+    <script src="../static/js/bootstrap.min.js" defer></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/detail.css" />
+    <script>
+      $(document).ready(()=>{
+        pageLoading()
+      })
+
+      function pageLoading() {
+        $('#comment-list').empty()
+        $.ajax({
+          type: "GET",
+          url: "/hana/get",
+          data: {},
+          success: function (response) {
+            let rows = response.comments;
+            rows.forEach(function (val, idx) {
+              const {name, text} = val
+              let temp_html = `<div class="card mb-3">
+                                  <div class="card-body comments">
+                                    <h5 class="card-title">${name}</h5>
+                                    <p class="card-text">${text}</p>
+                                  </div>
+                                </div>`
+              $('#comment-list').append(temp_html)
+            })
+          }
+        }
+      )
+      }
+
+     function save_comment() {
+        let name = $('#name').val()
+        let text = $('#text').val()
+        $.ajax({
+          type: 'POST',
+          url: '/hana/post',
+          data: {'name': name, 'text': text},
+          success: function (response) {
+            alert(response['msg'])
+            window.location.reload()
+          }
+        })
+      } 
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"
+          ><img src="/static/Logo.svg"
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-around"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="/hana">정하나</a></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="/yujin">박유진</a></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="/jeongik">이정익</a></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="/sanghyun">김상현</a></li>
+        </ul>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="profile">
+        <div class="profile-img">
+          <img
+            src="../static/Screenshot%202022-11-01%20at%2016.38.37.JPG"
+            alt="프로필 이미지"
+          />
+        </div>
+        <div class="profile-content">
+          <div class="first-line">
+            <h1 class="name">Jeong HaNa</h1>
+            <a href="https://github.com/Hah-nna"
+              ><img src="../static/github.svg" alt=""
+            /></a>
+            <a href="https://velog.io/@j_hana01"
+              ><img src="../static/velog.svg" alt=""
+            /></a>
+          </div>
+          <ul class="tag-container">
+            <li class="tag">초보 코더</li>
+            <li class="tag">ISTJ</li>
+            <li class="tag">고양이 집사</li>
+            <li class="tag">건강이 최고</li>
+          </ul>
+          <div class="contentbox">
+            <p class="lead">
+              <span>자기소개 및 MBTI :</span> A반 9조 정하나입니다. 고양이
+              2마리를 기르고 있고 산책을 좋아합니다. 취미는 맛집도장 깨기입니다.
+              잘 부탁드립니다.
+            </p>
+            <p class="lead">
+              <span>장점 :</span> 긍정적이려고 노력하는 점입니다. 힘들어도
+              슬퍼하고 좌절하는 것보다 긍정적으로 해결책을 찾아보려고 하는 것이
+              제 장점이랄까요...?
+            </p>
+            <p class="lead">
+              <span>협업 스타일 :</span> 저와 의견이 달라도 좋은 방향으로 나아갈
+              수 있는 의견이라면 수용하고 실행하는 편입니다.
+            </p>
+            <p class="lead">
+              <span>팀 목표 :</span> 각양각색이라는 팀명처럼 여러 배경을 가진
+              사람들이 모여 만든 팀입니다. 자신이 배우고자 한 것을 배우는 것이
+              목표입니다.
+            </p>
+            <hr class="my-4" />
+            <p class="lead"></p>
+          </div>
+        </div>
+      </div>
+      <div class="card my-4 p-3">
+        <div class="mb-3">
+          <form action="/api/jeongik/comments" method="post"></form>
+          <label for="name" class="form-label">닉네임</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="홍길동"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="text" class="form-label">코멘트</label>
+          <textarea class="form-control" id="text" rows="3"></textarea>
+        </div>
+        <button onclick="save_comment()" class="btn btn-primary" type="submit">방명록 작성</button>
+      </div>
+      <div id="comment-list">
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
