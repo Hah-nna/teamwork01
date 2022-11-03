@@ -12,11 +12,11 @@ ca = certifi.where()
 client = MongoClient('mongodb+srv://admin:adminshow@cluster0.3luh09a.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.db
 
-
-
 @app.route('/')
 def home():
     return render_template('index.html')
+
+# hana
 
 @app.route('/hana')
 def hana():
@@ -33,18 +33,27 @@ def hana_post():
     db.commentsHana.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
 
-@app.route("/hana/delete", methods=["DELETE"])
-def hana_delete():
-    _id = request.form['_id']
-    db.commentsHana.find_one_and_delete({'_id': ObjectId(_id)})
-    return jsonify({'msg': '삭제'})
-
 @app.route("/hana/get", methods=["GET"])
 def hana_get():
     comment_list = list(db.commentsHana.find({}))
     for i in comment_list:
         i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
+
+@app.route("/hana/patch", methods=["PATCH"])
+def hana_patch():
+    name = request.form['name']
+    text = request.form['text']
+    _id = request.form['_id']
+    db.commentsHana.find_one_and_update({'_id': ObjectId(_id)}, {'$set': {'name': name, 'text': text}})
+    return jsonify({'msg':'수정 완료!'})
+
+@app.route("/hana/delete", methods=["DELETE"])
+def hana_delete():
+    _id = request.form['_id']
+    db.commentsHana.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '코멘트가 삭제되었습니다.'})
+
 
 # jeongik
 
@@ -70,11 +79,19 @@ def jeongik_get():
         i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
 
+@app.route("/jeongik/patch", methods=["PATCH"])
+def jeongik_patch():
+    name = request.form['name']
+    text = request.form['text']
+    _id = request.form['_id']
+    db.commentsJeongik.find_one_and_update({'_id': ObjectId(_id)}, {'$set': {'name': name, 'text': text}})
+    return jsonify({'msg':'수정 완료!'})
+
 @app.route("/jeongik/delete", methods=["DELETE"])
 def jeongik_delete():
     _id = request.form['_id']
     db.commentsJeongik.find_one_and_delete({'_id': ObjectId(_id)})
-    return jsonify({'msg': '삭제'})
+    return jsonify({'msg': '코멘트가 삭제되었습니다.'})
 
 # sanghyun
 
@@ -93,18 +110,27 @@ def sanghyun_post():
     db.commentsSanghyun.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
 
-@app.route("/sanghyun/delete", methods=["DELETE"])
-def sanghyun_delete():
-    _id = request.form['_id']
-    db.commentsSanghyun.find_one_and_delete({'_id': ObjectId(_id)})
-    return jsonify({'msg': '삭제'})
-
 @app.route("/sanghyun/get", methods=["GET"])
 def sanghyun_get():
     comment_list = list(db.commentsSanghyun.find({}))
     for i in comment_list:
         i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
+
+@app.route("/sanghyun/patch", methods=["PATCH"])
+def sanghyun_patch():
+    name = request.form['name']
+    text = request.form['text']
+    _id = request.form['_id']
+    db.commentsSanghyun.find_one_and_update({'_id': ObjectId(_id)}, {'$set': {'name': name, 'text': text}})
+    return jsonify({'msg':'수정 완료!'})
+
+@app.route("/sanghyun/delete", methods=["DELETE"])
+def sanghyun_delete():
+    _id = request.form['_id']
+    db.commentsSanghyun.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '코멘트가 삭제되었습니다.'})
+
 
 # yujin
 
@@ -123,18 +149,27 @@ def yujin_post():
     db.commentsYujin.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
 
-@app.route("/yujin/delete", methods=["DELETE"])
-def yujin_delete():
-    _id = request.form['_id']
-    db.commentsYujin.find_one_and_delete({'_id': ObjectId(_id)})
-    return jsonify({'msg': '삭제'})
-
 @app.route("/yujin/get", methods=["GET"])
 def yujin_get():
     comment_list = list(db.commentsYujin.find({}))
     for i in comment_list:
         i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
+
+@app.route("/yujin/patch", methods=["PATCH"])
+def yujin_patch():
+    name = request.form['name']
+    text = request.form['text']
+    _id = request.form['_id']
+    db.commentsYujin.find_one_and_update({'_id': ObjectId(_id)}, {'$set': {'name': name, 'text': text}})
+    return jsonify({'msg':'수정 완료!'})
+
+@app.route("/yujin/delete", methods=["DELETE"])
+def yujin_delete():
+    _id = request.form['_id']
+    db.commentsYujin.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '코멘트가 삭제되었습니다.'})
+
 
 
 if __name__ == '__main__':

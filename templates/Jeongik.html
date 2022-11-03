@@ -23,14 +23,13 @@
             let rows = response.comments;
             rows.forEach(function (val, idx) {
               const { name, text, _id } = val;
-              // console.log(name);
               let temp_html = `
               <div class="card mb-3">
                 <div class="card-body comments">
                   <div class="comment-header">
                     <h5 class="card-title">${name}</h5>
                     <div class="comment-header-btn">
-                      <img onclick="editCommentModal('${name}','${text}')" class="icon" src="../static/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                      <img onclick="editCommentModal('${name}','${text}', '${_id}')" class="icon" src="../static/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
                       <div onclick="deleteComment('${_id}')"><img class="icon" src="../static/delete_FILL0_wght400_GRAD0_opsz24.svg" alt=""></div>
                     </div>
                   </div>
@@ -44,18 +43,20 @@
         });
       }
 
-      function editCommentModal(name, text) {
+      function editCommentModal(name, text, _id) {
         $('.modal-name').val(name);
-        $('.modal-text').append(`${text}`);
+        $('.modal-text').val(`${text}`);
+        $('.edit-comment-button').attr('id', _id);
       }
 
       function editCommentSubmit() {
         let name = $('.modal-name').val();
         let text = $('.modal-text').val();
+        let _id = $('.edit-comment-button').attr('id');
         $.ajax({
           type: 'PATCH',
-          url: '/jeongik/PATCH',
-          data: { name: name, text: text },
+          url: '/jeongik/patch',
+          data: { name: name, text: text, _id: _id },
           success: function (response) {
             alert(response['msg']);
             window.location.reload();
@@ -64,7 +65,6 @@
       }
 
       function deleteComment(_id) {
-        console.log(_id);
         $.ajax({
           type: 'DELETE',
           url: '/jeongik/delete',
@@ -194,7 +194,7 @@
               <button
                 onclick="editCommentSubmit()"
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-primary edit-comment-button"
               >
                 수정하기
               </button>
