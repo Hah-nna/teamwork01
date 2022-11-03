@@ -22,21 +22,42 @@
           success: function (response) {
             let rows = response.comments;
             rows.forEach(function (val, idx) {
-              const {name, text} = val
-              let temp_html = `<div class="card mb-3">
-                                  <div class="card-body comments">
-                                    <h5 class="card-title">${name}</h5>
-                                    <p class="card-text">${text}</p>
-                                  </div>
-                                </div>`
-              $('#comment-list').append(temp_html)
+              const {name, text, _id} = val
+              console.log(_id)
+              let temp_html = `
+              <div class="card mb-3">
+                <div class="card-body comments">
+                  <div class="comment-header">
+                    <h5 class="card-title">${name}</h5>
+                    <div class="comment-header-btn">
+                      <!-- <img class="icon" src="../static/edit_FILL0_wght400_GRAD0_opsz24.svg" alt=""> -->
+                      <div onclick="deleteComment('${_id}')"><img class="icon" src="../static/delete_FILL0_wght400_GRAD0_opsz24.svg" alt=""></div>
+                    </div>
+                  </div>
+                  <p class="card-text">${text}</p>
+                </div>
+              </div>
+              `;
+              $('#comment-list').append(temp_html);
             })
           }
         }
-      )
+      )}
+
+      function deleteComment(_id) {
+        console.log(_id)
+        $.ajax({
+          type: 'DELETE',
+          url: '/yujin/delete',
+          data: {'_id': _id},
+          success: function (response) {
+            alert(response['msg'])
+            window.location.reload()
+          }
+        })
       }
 
-     function save_comment() {
+      function save_comment() {
         let name = $('#name').val()
         let text = $('#text').val()
         $.ajax({

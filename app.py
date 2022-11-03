@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import certifi
 ca = certifi.where()
 client = MongoClient('mongodb+srv://admin:adminshow@cluster0.3luh09a.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
@@ -32,10 +33,20 @@ def hana_post():
     db.commentsHana.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
 
+@app.route("/hana/delete", methods=["DELETE"])
+def hana_delete():
+    _id = request.form['_id']
+    db.commentsHana.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '삭제'})
+
 @app.route("/hana/get", methods=["GET"])
 def hana_get():
-    comment_list = list(db.commentsHana.find({}, {'_id': False}))
+    comment_list = list(db.commentsHana.find({}))
+    for i in comment_list:
+        i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
+
+# jeongik
 
 @app.route('/jeongik')
 def jeongik():
@@ -54,8 +65,18 @@ def jeongik_post():
 
 @app.route("/jeongik/get", methods=["GET"])
 def jeongik_get():
-    comment_list = list(db.commentsJeongik.find({}, {'_id': False}))
+    comment_list = list(db.commentsJeongik.find({}))
+    for i in comment_list:
+        i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
+
+@app.route("/jeongik/delete", methods=["DELETE"])
+def jeongik_delete():
+    _id = request.form['_id']
+    db.commentsJeongik.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '삭제'})
+
+# sanghyun
 
 @app.route('/sanghyun')
 def sanghyun():
@@ -72,10 +93,20 @@ def sanghyun_post():
     db.commentsSanghyun.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
 
+@app.route("/sanghyun/delete", methods=["DELETE"])
+def sanghyun_delete():
+    _id = request.form['_id']
+    db.commentsSanghyun.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '삭제'})
+
 @app.route("/sanghyun/get", methods=["GET"])
 def sanghyun_get():
-    comment_list = list(db.commentsSanghyun.find({}, {'_id': False}))
+    comment_list = list(db.commentsSanghyun.find({}))
+    for i in comment_list:
+        i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
+
+# yujin
 
 @app.route('/yujin')
 def yujun():
@@ -92,9 +123,17 @@ def yujin_post():
     db.commentsYujin.insert_one(doc)
     return jsonify({'msg':'저장 완료!'})
 
+@app.route("/yujin/delete", methods=["DELETE"])
+def yujin_delete():
+    _id = request.form['_id']
+    db.commentsYujin.find_one_and_delete({'_id': ObjectId(_id)})
+    return jsonify({'msg': '삭제'})
+
 @app.route("/yujin/get", methods=["GET"])
 def yujin_get():
-    comment_list = list(db.commentsYujin.find({}, {'_id': False}))
+    comment_list = list(db.commentsYujin.find({}))
+    for i in comment_list:
+        i['_id'] = str(i['_id'])
     return jsonify({'comments': comment_list})
 
 
