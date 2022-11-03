@@ -9,28 +9,27 @@
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../static/css/detail.css" />
     <script>
-      $(document).ready(()=>{
-        pageLoading()
-      })
+      $(document).ready(() => {
+        pageLoading();
+      });
 
       function pageLoading() {
-        $('#comment-list').empty()
+        $('#comment-list').empty();
         $.ajax({
-          type: "GET",
-          url: "/jeongik/get",
+          type: 'GET',
+          url: '/jeongik/get',
           data: {},
           success: function (response) {
             let rows = response.comments;
             rows.forEach(function (val, idx) {
-              const {name, text, _id} = val
-              console.log(_id)
+              const { name, text, _id } = val;
               let temp_html = `
               <div class="card mb-3">
                 <div class="card-body comments">
                   <div class="comment-header">
                     <h5 class="card-title">${name}</h5>
                     <div class="comment-header-btn">
-                      <!-- <img class="icon" src="../static/edit_FILL0_wght400_GRAD0_opsz24.svg" alt=""> -->
+                      <img onclick="editCommentModal('${name}','${text}', '${_id}')" class="icon" src="../static/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
                       <div onclick="deleteComment('${_id}')"><img class="icon" src="../static/delete_FILL0_wght400_GRAD0_opsz24.svg" alt=""></div>
                     </div>
                   </div>
@@ -39,50 +38,69 @@
               </div>
               `;
               $('#comment-list').append(temp_html);
-            })
-          }
-        }
-      )}
+            });
+          },
+        });
+      }
+
+      function editCommentModal(name, text, _id) {
+        $('.modal-name').val(name);
+        $('.modal-text').val(`${text}`);
+        $('.edit-comment-button').attr('id', _id);
+      }
+
+      function editCommentSubmit() {
+        let name = $('.modal-name').val();
+        let text = $('.modal-text').val();
+        let _id = $('.edit-comment-button').attr('id');
+        $.ajax({
+          type: 'PATCH',
+          url: '/jeongik/patch',
+          data: { name: name, text: text, _id: _id },
+          success: function (response) {
+            alert(response['msg']);
+            window.location.reload();
+          },
+        });
+      }
+
       function deleteComment(_id) {
-        console.log(_id)
         $.ajax({
           type: 'DELETE',
           url: '/jeongik/delete',
-          data: {'_id': _id},
+          data: { _id: _id },
           success: function (response) {
-            alert(response['msg'])
-            window.location.reload()
-          }
-        })
+            alert(response['msg']);
+            window.location.reload();
+          },
+        });
       }
 
-     function save_comment() {
-        let name = $('#name').val()
-        let text = $('#text').val()
+      function save_comment() {
+        let name = $('#name').val();
+        let text = $('#text').val();
         $.ajax({
           type: 'POST',
           url: '/jeongik/post',
-          data: {'name': name, 'text': text},
+          data: { name: name, text: text },
           success: function (response) {
-            alert(response['msg'])
-            window.location.reload()
-          }
-        })
-      } 
+            alert(response['msg']);
+            window.location.reload();
+          },
+        });
+      }
       function 정익() {
-        window.open("https://github.com/Jeremy-Kr", "_blank")
+        window.open('https://github.com/Jeremy-Kr', '_blank');
       }
       function 이정익() {
-        window.open("https://velog.io/@jeremy-kr", "_blank")
+        window.open('https://velog.io/@jeremy-kr', '_blank');
       }
     </script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"
-          ><img src="/static/Logo.svg"
-        /></a>
+        <a class="navbar-brand" href="/"><img src="/static/Logo.svg" /></a>
         <button
           class="navbar-toggler"
           type="button"
@@ -99,21 +117,91 @@
           id="navbarNav"
         >
           <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/hana">정하나</a></li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/yujin">박유진</a></li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/jeongik">이정익</a></li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/sanghyun">김상현</a></li>
-        </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="/hana">정하나</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/yujin">박유진</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/jeongik">이정익</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/sanghyun">김상현</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
     <main>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                댓글 수정하기
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label"
+                    >닉네임:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control modal-name"
+                    id="recipient-name"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label"
+                    >코멘트:</label
+                  >
+                  <textarea
+                    class="form-control modal-text"
+                    id="message-text"
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                취소
+              </button>
+              <button
+                onclick="editCommentSubmit()"
+                type="button"
+                class="btn btn-primary edit-comment-button"
+              >
+                수정하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="profile">
         <div class="profile-img">
           <img
@@ -124,8 +212,12 @@
         <div class="profile-content">
           <div class="first-line">
             <h1 class="name">Lee JeongIk</h1>
-            <a href="" onclick="정익()"><img src="../static/github.svg" alt="" /></a>
-            <a href="" onclick="이정익()"><img src="../static/velog.svg" alt="" /></a>
+            <a href="" onclick="정익()"
+              ><img src="../static/github.svg" alt=""
+            /></a>
+            <a href="" onclick="이정익()"
+              ><img src="../static/velog.svg" alt=""
+            /></a>
           </div>
           <ul class="tag-container">
             <li class="tag">(전)토목설계</li>
@@ -169,7 +261,9 @@
           <label for="text" class="form-label">코멘트</label>
           <textarea class="form-control" id="text" rows="3"></textarea>
         </div>
-        <button onclick="save_comment()" class="btn btn-primary" type="submit">방명록 작성</button>
+        <button onclick="save_comment()" class="btn btn-primary" type="submit">
+          방명록 작성
+        </button>
       </div>
       <div id="comment-list"></div>
     </main>
