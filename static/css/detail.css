@@ -20,6 +20,10 @@ html {
   font-size: 16px;
 }
 
+<<<<<<< HEAD:detail.css
+=======
+.icon{ width: 24px; }
+>>>>>>> dbba61ef7e156cb15707a0aaee635890a2973fb7:static/css/detail.css
 
 /*  */
 
@@ -167,4 +171,19 @@ footer {
 .active {
   background-color: #EEE;
   border-radius: 15%;
+}
+
+.comment-header {
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-header-btn {
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }

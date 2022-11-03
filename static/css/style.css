@@ -1,0 +1,44 @@
+.profile-content > ol, ul {
+  padding: 0%;
+}
+
+
+h1 {
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 72px;
+    margin: 0 0 32px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 48px 64px;
+  margin: 72px 0;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+}
+
+.profile {
+    width: 520px;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    row-gap: 24px;
+    flex-wrap: wrap;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-card > img {
+    width: 240px;
+    height: 240px;
+    border-radius: 8px;
+}
